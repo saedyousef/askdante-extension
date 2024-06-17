@@ -11,27 +11,42 @@ function calculateTime(timeData) {
     timeData.forEach((record, index) => {
         let [time, action] = record.split(' ');
         let [hours, minutes] = time.split(':').map(Number);
-        let recordTime = new Date().setHours(hours, minutes, 0, 0);
+        let recordTime = new Date();
+        recordTime.setHours(hours);
+        recordTime.setMinutes(minutes);
+        recordTime.setSeconds(0);
+        recordTime.setMilliseconds(0);
 
         if (['come', 'kommen', 'komen'].includes(action.toLowerCase())) {
-            if (index > 0) {
-                let previousRecord = timeData[index - 1];
-                let [previousTime, previousAction] = previousRecord.split(' ');
-                let [prevHours, prevMinutes] = previousTime.split(':').map(Number);
-                let prevEndTime = new Date().setHours(prevHours, prevMinutes, 0, 0);
-
-                if (['go', 'gehen', 'gaan'].includes(previousAction.toLowerCase())) {
-                    breakMinutes += (recordTime - prevEndTime) / 60000;
-                }
-            }
             currentStartTime = recordTime;
         } else if (['go', 'gehen', 'gaan'].includes(action.toLowerCase())) {
             if (currentStartTime) {
-                totalMinutes += (recordTime - currentStartTime) / 60000;
+                totalMinutes += (recordTime - currentStartTime) / 60000; // Convert milliseconds to minutes
                 currentStartTime = null;
             }
         }
+
+        // Calculate break time
+        if (index > 0) {
+            let [prevTime, prevAction] = timeData[index - 1].split(' ');
+            let [prevHours, prevMinutes] = prevTime.split(':').map(Number);
+            let prevRecordTime = new Date();
+            prevRecordTime.setHours(prevHours);
+            prevRecordTime.setMinutes(prevMinutes);
+            prevRecordTime.setSeconds(0);
+            prevRecordTime.setMilliseconds(0);
+
+            if (['go', 'gehen', 'gaan'].includes(prevAction.toLowerCase()) && ['come', 'kommen', 'komen'].includes(action.toLowerCase())) {
+                breakMinutes += (recordTime - prevRecordTime) / 60000; // Convert milliseconds to minutes
+            }
+        }
     });
+
+    // If the last action is "come" and not paired with "go", calculate time till now
+    if (currentStartTime) {
+        let now = new Date();
+        totalMinutes += (now - currentStartTime) / 60000; // Convert milliseconds to minutes
+    }
 
     console.log('Total Minutes:', totalMinutes);
     console.log('Break Minutes:', breakMinutes);
