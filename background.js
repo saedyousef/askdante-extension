@@ -52,11 +52,11 @@ function calculateTime(timeData) {
     console.log('Break Minutes:', breakMinutes);
 
     // Deduct necessary breaks according to German law
-    if (totalMinutes > 360 && totalMinutes <= 540) {
+    if (totalMinutes > 360 && totalMinutes <= 540) { // More than 6 hours, less than or equal to 9 hours
         if (breakMinutes < 30) {
             totalMinutes -= (30 - breakMinutes);
         }
-    } else if (totalMinutes > 540) {
+    } else if (totalMinutes > 540) { // More than 9 hours
         if (breakMinutes < 45) {
             totalMinutes -= (45 - breakMinutes);
         }
