@@ -66,16 +66,23 @@
 <body>
 <h1>AskDante Time Calculator</h1>
 <div class="label-container">
-    <label for="toggleTotalTime">Show Total Working Time</label>
+    <label for="toggleTotalTime" id="labelTotalTime">Show Total Working Time</label>
     <label class="switch">
         <input type="checkbox" id="toggleTotalTime">
         <span class="slider"></span>
     </label>
 </div>
 <div class="label-container">
-    <label for="toggleRemaining">Show Remaining Time</label>
+    <label for="toggleRemaining" id="labelRemainingTime">Show Remaining Time</label>
     <label class="switch">
         <input type="checkbox" id="toggleRemaining">
+        <span class="slider"></span>
+    </label>
+</div>
+<div class="label-container">
+    <label for="toggleTimeFormat" id="labelTimeFormat">Use Clock Format (HH:MM:SS)</label>
+    <label class="switch">
+        <input type="checkbox" id="toggleTimeFormat">
         <span class="slider"></span>
     </label>
 </div>

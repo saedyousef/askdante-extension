@@ -1,3 +1,15 @@
+chrome.runtime.onInstalled.addListener(function (details) {
+    if (details.reason === 'update') {
+        chrome.notifications.create('updateNotification', {
+            type: 'basic',
+            iconUrl: 'icon_48x48.png',
+            title: 'Extension Updated to Version 2.0',
+            message: 'Release Notes:\n\n- Fixed an issue where the extension was running on non-virtual terminal pages.\n- Redesigned the time card.\n- Added a new option to display time in clock format.',
+            priority: 2
+        });
+    }
+});
+
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     let totalTime = calculateTime(message.timeData);
     sendResponse({ totalTime: formatTime(totalTime) });
@@ -42,16 +54,12 @@ function calculateTime(timeData) {
         }
     });
 
-    // If the last action is "come" and not paired with "go", calculate time till now
+
     if (currentStartTime) {
         let now = new Date();
-        totalMinutes += (now - currentStartTime) / 60000; // Convert milliseconds to minutes
+        totalMinutes += (now - currentStartTime) / 60000;
     }
 
-    console.log('Total Minutes:', totalMinutes);
-    console.log('Break Minutes:', breakMinutes);
-
-    // Deduct necessary breaks according to German law
     if (totalMinutes > 360 && totalMinutes <= 540) { // More than 6 hours, less than or equal to 9 hours
         if (breakMinutes < 30) {
             totalMinutes -= (30 - breakMinutes);
