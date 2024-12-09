@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <title>AskDante Time Tracker</title>
     <style>
@@ -54,9 +54,6 @@
             align-items: center;
             margin-top: 10px;
         }
-        .label-container label {
-            margin: 0;
-        }
         h1 {
             font-size: 16px;
             margin-bottom: 10px;
@@ -73,16 +70,9 @@
     </label>
 </div>
 <div class="label-container">
-    <label for="toggleRemaining" id="labelRemainingTime">Show Remaining Time</label>
+    <label for="toggleTimeRules" id="labelTimeRules">Apply Time Regulations</label>
     <label class="switch">
-        <input type="checkbox" id="toggleRemaining">
-        <span class="slider"></span>
-    </label>
-</div>
-<div class="label-container">
-    <label for="toggleTimeFormat" id="labelTimeFormat">Use Clock Format (HH:MM:SS)</label>
-    <label class="switch">
-        <input type="checkbox" id="toggleTimeFormat">
+        <input type="checkbox" id="toggleTimeRules">
         <span class="slider"></span>
     </label>
 </div>

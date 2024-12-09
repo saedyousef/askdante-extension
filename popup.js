@@ -1,16 +1,13 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const toggleRemaining = document.getElementById('toggleRemaining');
     const toggleTotalTime = document.getElementById('toggleTotalTime');
-    const toggleTimeFormat = document.getElementById('toggleTimeFormat');
+    const toggleTimeRules = document.getElementById('toggleTimeRules');
     const labelTotalTime = document.getElementById('labelTotalTime');
-    const labelRemainingTime = document.getElementById('labelRemainingTime');
-    const labelTimeFormat = document.getElementById('labelTimeFormat');
+    const labelTimeRules = document.getElementById('labelTimeRules');
 
-    // Retrieve the stored toggle states
-    chrome.storage.sync.get(['showRemaining', 'showTotalTime', 'useClockFormat'], function(result) {
-        toggleRemaining.checked = result.showRemaining || false;
+    // Load saved states
+    chrome.storage.sync.get(['showTotalTime', 'applyTimeRules'], function(result) {
         toggleTotalTime.checked = result.showTotalTime || false;
-        toggleTimeFormat.checked = result.useClockFormat || false;
+        toggleTimeRules.checked = result.applyTimeRules || false;
     });
 
     // Handle translations
@@ -20,44 +17,38 @@ document.addEventListener('DOMContentLoaded', function () {
     const translations = {
         en: {
             totalTimeLabel: 'Show Total Working Time',
-            remainingTimeLabel: 'Show Remaining Time',
-            timeFormatLabel: 'Use Clock Format (HH:MM:SS)',
+            timeRulesLabel: 'Apply Time Regulations'
         },
         de: {
             totalTimeLabel: 'Gesamte Arbeitszeit anzeigen',
-            remainingTimeLabel: 'Verbleibende Zeit anzeigen',
-            timeFormatLabel: 'Uhrzeitformat verwenden (HH:MM:SS)',
+            timeRulesLabel: 'Zeitregeln anwenden'
         }
     };
 
     const lang = isGerman ? 'de' : 'en';
     const text = translations[lang];
 
+    // Update labels with translations
     labelTotalTime.textContent = text.totalTimeLabel;
-    labelRemainingTime.textContent = text.remainingTimeLabel;
-    labelTimeFormat.textContent = text.timeFormatLabel;
+    labelTimeRules.textContent = text.timeRulesLabel;
 
-    toggleRemaining.addEventListener('change', function () {
-        const showRemaining = toggleRemaining.checked;
-        chrome.storage.sync.set({ showRemaining: showRemaining });
-        updateContentScript('showRemaining', showRemaining);
-    });
-
+    // Event Listeners for Checkboxes
     toggleTotalTime.addEventListener('change', function () {
-        const showTotalTime = toggleTotalTime.checked;
-        chrome.storage.sync.set({ showTotalTime: showTotalTime });
-        updateContentScript('showTotalTime', showTotalTime);
+        chrome.storage.sync.set({ showTotalTime: toggleTotalTime.checked });
+        updateContentScript('showTotalTime', toggleTotalTime.checked);
     });
 
-    toggleTimeFormat.addEventListener('change', function () {
-        const useClockFormat = toggleTimeFormat.checked;
-        chrome.storage.sync.set({ useClockFormat: useClockFormat });
-        updateContentScript('useClockFormat', useClockFormat);
+    toggleTimeRules.addEventListener('change', function () {
+        chrome.storage.sync.set({ applyTimeRules: toggleTimeRules.checked });
+        updateContentScript('applyTimeRules', toggleTimeRules.checked);
     });
 
+    // Send data to content.js
     function updateContentScript(key, value) {
         chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-            chrome.tabs.sendMessage(tabs[0].id, { [key]: value });
+            if (tabs.length > 0) {
+                chrome.tabs.sendMessage(tabs[0].id, { [key]: value });
+            }
         });
     }
 });
