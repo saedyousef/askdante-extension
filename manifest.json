@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "AskDante: Total work time calculator",
-  "version": "2.1",
+  "version": "2.2",
   "permissions": ["storage", "notifications"],
   "action": {
 	"default_popup": "html/popup.html",
@@ -17,7 +17,8 @@
   "content_scripts": [
 	{
 	  "matches": ["*://*.askdante.com/virtualTerminal", "*://*.askdante.com/virtualTerminal?*"],
-	  "js": ["js/content.js"]
+	  "js": ["js/content.js", "js/style.js"],
+	  "css": ["css/content.css"]
 	}
   ]
 }

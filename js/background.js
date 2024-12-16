@@ -5,14 +5,14 @@ chrome.runtime.onInstalled.addListener(function (details) {
             type: 'basic',
             iconUrl: chrome.runtime.getURL('img/icon_48x48.png'),
             title: 'Extension Updated: New Features Added!',
-            message:
-                'What\'s New:\n' +
-                '- Time now displayed as h:m format (e.g., 5:37)\n' +
-                '- Labels and values aligned for clarity\n' +
-                '- Responsive card height for better display\n' +
-                '- Seamless "Apply Time Rules" support\n' +
-                'Enjoy the improved experience!',
-            priority: 1
+            message: [
+                '🕒 Time now displayed in h:m format (e.g., 5:37)',
+                '✅ Labels and values are now properly aligned',
+                '📐 Responsive card height for better display',
+                '⚙️ Seamless "Apply Time Rules" feature support',
+                '🎉 Enjoy the improved experience!'
+            ].join('\n'),
+            priority: 2
         });
     }
 });
