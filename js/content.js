@@ -1,3 +1,4 @@
+// content.js is a content script that runs in the context of the web page.
 window.onload = function () {
     const userLang = navigator.language || navigator.userLanguage;
     const isGerman = userLang.startsWith('de');
@@ -20,17 +21,10 @@ window.onload = function () {
 };
 
 // Create the time card with a refresh button
-function createCardElement(text) {
+function createCardElement() {
     const totalTimeElement = document.createElement('div');
     totalTimeElement.id = 'total-working-time';
-    totalTimeElement.style.cssText = `
-        position: fixed; bottom: 122px; right: 39px; width: 277px;
-         background-color: white; padding: 12px;
-        border: 1px solid #ddd; border-radius: 5px; 
-        font-size: 20px; color: black; z-index: 1000; display: flex;
-        flex-direction: column; align-items: flex-end;
-    `;
-
+    totalTimeElement.className = 'total-working-time';
     return totalTimeElement;
 }
 
@@ -55,7 +49,7 @@ function refreshData(text) {
 
         let totalTimeElement = document.getElementById('total-working-time');
         if (!totalTimeElement) {
-            totalTimeElement = createCardElement(text);
+            totalTimeElement = createCardElement();
             document.body.appendChild(totalTimeElement);
         }
 
@@ -116,7 +110,10 @@ function formatTimeAsHM(timeString) {
     const parts = timeString.match(/(\d+) hours? and (\d+) minutes?/i);
     if (parts) {
         const hours = parts[1];
-        const minutes = parts[2];
+        let minutes = parts[2];
+        if (minutes.length === 1) {
+            minutes = '0' + minutes;
+        }
         return `${hours}:${minutes}`;
     }
     return timeString;

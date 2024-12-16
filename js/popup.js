@@ -1,3 +1,4 @@
+// popup.js is the JavaScript file that is executed when the popup is opened.
 document.addEventListener('DOMContentLoaded', function () {
     const toggleTotalTime = document.getElementById('toggleTotalTime');
     const toggleTimeRules = document.getElementById('toggleTimeRules');

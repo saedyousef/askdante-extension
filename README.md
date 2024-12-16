@@ -1,6 +1,6 @@
 # AskDante: Total Work Time Calculator
 
-![Logo](icon.png)
+![Logo](img/icon.png)
 
 ## Table of Contents
 - [Description](#description)

@@ -1,0 +1,17 @@
+/* Styles for the total working time element */
+.total-working-time {
+    position: fixed;
+    bottom: 122px;
+    right: 39px;
+    width: 277px;
+    background-color: white;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 20px;
+    color: black;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}

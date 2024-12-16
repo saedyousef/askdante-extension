@@ -1,8 +1,9 @@
+// background.js is a script that runs in the background and manages the extension's lifecycle, including event listeners and message passing.
 chrome.runtime.onInstalled.addListener(function (details) {
     if (details.reason === 'update') {
         chrome.notifications.create('updateNotification', {
             type: 'basic',
-            iconUrl: 'icon_48x48.png',
+            iconUrl: chrome.runtime.getURL('img/icon_48x48.png'),
             title: 'Extension Updated: New Features Added!',
             message:
                 'What\'s New:\n' +
@@ -11,7 +12,7 @@ chrome.runtime.onInstalled.addListener(function (details) {
                 '- Responsive card height for better display\n' +
                 '- Seamless "Apply Time Rules" support\n' +
                 'Enjoy the improved experience!',
-            priority: 2
+            priority: 1
         });
     }
 });
@@ -85,12 +86,15 @@ function calculateTime(timeData, applyTimeRules) {
 
 function formatTime(totalMinutes) {
     const hours = Math.floor(totalMinutes / 60);
-    const minutes = Math.floor(totalMinutes % 60);
-    const totalFormatted = `${hours} hours and ${minutes} minutes`;
+    const minutes = Math.floor(totalMinutes % 60).toString().padStart(2, '0');  // Add leading zero
+
+    const totalFormatted = `${hours}:${minutes}`;
 
     const remainingMinutes = Math.max(480 - totalMinutes, 0); // 8 working hours
     const remainingHours = Math.floor(remainingMinutes / 60);
-    const remainingFormatted = `${remainingHours} hours and ${remainingMinutes % 60} minutes`;
+    const remainingMinutesFormatted = Math.floor(remainingMinutes % 60).toString().padStart(2, '0');  // Add leading zero
+
+    const remainingFormatted = `${remainingHours}:${remainingMinutesFormatted}`;
 
     return { totalFormatted, remainingFormatted };
 }
