@@ -17,7 +17,8 @@
   "content_scripts": [
 	{
 	  "matches": ["*://*.askdante.com/virtualTerminal", "*://*.askdante.com/virtualTerminal?*"],
-	  "js": ["js/content.js"]
+	  "js": ["js/content.js", "js/style.js"],
+	  "css": ["css/content.css"]
 	}
   ]
 }

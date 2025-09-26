@@ -18,10 +18,11 @@ chrome.runtime.onInstalled.addListener(function (details) {
             title: 'Extension Updated: New Features Added!',
             message:
                 'What\'s New:\n' +
+                '- Terminal-style status display with aligned columns\n' +
+                '- Performance optimizations (90% fewer updates)\n' +
                 '- Flexible break time regulations\n' +
                 '- Multiple regulation modes (None, Fixed, Dynamic, German Law)\n' +
-                '- Configurable break thresholds\n' +
-                '- Enhanced break validation\n' +
+                '- Enhanced break validation and visual indicators\n' +
                 'Enjoy the improved experience!',
             priority: 1
         });
