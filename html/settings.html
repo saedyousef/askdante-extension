@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AskDante Time Tracker - Settings</title>
+    <link rel="stylesheet" href="../css/settings.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>AskDante Time Tracker Settings</h1>
+            <p class="subtitle">Configure your break time regulations and display preferences</p>
+        </header>
+
+        <div class="settings-grid">
+            <!-- Basic Settings -->
+            <section class="settings-section">
+                <h2>Basic Settings</h2>
+                <div class="setting-group">
+                    <label class="toggle-label">
+                        <input type="checkbox" id="toggleTotalTime" class="toggle-input">
+                        <span class="toggle-slider"></span>
+                        <span class="toggle-text">Show Total Working Time</span>
+                    </label>
+                </div>
+                <div class="setting-group">
+                    <label class="toggle-label">
+                        <input type="checkbox" id="toggleTimeRules" class="toggle-input">
+                        <span class="toggle-slider"></span>
+                        <span class="toggle-text">Apply Time Regulations</span>
+                    </label>
+                </div>
+            </section>
+
+            <!-- Break Regulation Settings -->
+            <section class="settings-section" id="breakRegulationSection">
+                <h2>Break Regulation Settings</h2>
+                
+                <div class="setting-group">
+                    <label for="breakRegulationMode" class="select-label">Regulation Mode</label>
+                    <select id="breakRegulationMode" class="select-input">
+                        <option value="none">No Regulation</option>
+                        <option value="fixed">Fixed Rule</option>
+                        <option value="dynamic">Dynamic Multi-Threshold</option>
+                        <option value="german">German Arbeitszeitgesetz</option>
+                    </select>
+                </div>
+
+                <!-- Fixed Rule Settings -->
+                <div id="fixedRuleSettings" class="rule-settings">
+                    <h3>Fixed Rule Configuration</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="fixedAfterHours">After Hours</label>
+                            <input type="number" id="fixedAfterHours" min="1" max="12" value="6" class="number-input">
+                        </div>
+                        <div class="form-group">
+                            <label for="fixedRequiredMinutes">Required Break (minutes)</label>
+                            <input type="number" id="fixedRequiredMinutes" min="5" max="120" value="30" class="number-input">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dynamic Rule Settings -->
+                <div id="dynamicRuleSettings" class="rule-settings">
+                    <h3>Dynamic Multi-Threshold Configuration</h3>
+                    <div class="form-group">
+                        <label for="minValidBreakMinutes">Minimum Valid Break (minutes)</label>
+                        <input type="number" id="minValidBreakMinutes" min="5" max="60" value="15" class="number-input">
+                    </div>
+                    <div class="thresholds-section">
+                        <h4>Break Thresholds</h4>
+                        <div id="thresholdsList" class="thresholds-list"></div>
+                        <button type="button" id="addThresholdBtn" class="btn btn-primary">
+                            <span class="btn-icon">+</span>
+                            Add Threshold
+                        </button>
+                    </div>
+                </div>
+
+                <!-- German Rule Settings -->
+                <div id="germanRuleSettings" class="rule-settings">
+                    <h3>German Arbeitszeitgesetz Configuration</h3>
+                    <div class="form-group">
+                        <label for="germanMinValidBreakMinutes">Minimum Valid Break (minutes)</label>
+                        <input type="number" id="germanMinValidBreakMinutes" min="5" max="60" value="15" class="number-input">
+                    </div>
+                    <div class="info-card">
+                        <h4>German Labor Law §4</h4>
+                        <ul>
+                            <li>After 6-9 hours: 30 minutes required break (segments ≥15m)</li>
+                            <li>After >9 hours: 45 minutes required break (segments ≥15m)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button type="button" id="saveBreakSettingsBtn" class="btn btn-success">
+                        <span class="btn-icon">💾</span>
+                        Save Settings
+                    </button>
+                    <button type="button" id="resetSettingsBtn" class="btn btn-secondary">
+                        <span class="btn-icon">🔄</span>
+                        Reset to Defaults
+                    </button>
+                </div>
+            </section>
+
+            <!-- Preview Section -->
+            <section class="settings-section" id="previewSection">
+                <h2>Preview</h2>
+                <div class="preview-card">
+                    <h3>Break Regulation Preview</h3>
+                    <div id="previewContent" class="preview-content">
+                        <p>Select a regulation mode to see a preview of how it will work.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <footer class="footer">
+            <p>Settings are automatically saved and synchronized across your devices.</p>
+        </footer>
+    </div>
+
+    <script src="../js/settings.js"></script>
+</body>
+</html>

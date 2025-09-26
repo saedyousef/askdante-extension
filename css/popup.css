@@ -1,8 +1,118 @@
 body {
-    font-family: Arial, sans-serif;
-    padding: 10px;
-    font-size: 12px;
-    width: 200px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+}
+
+.popup-container {
+    width: 320px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    overflow: hidden;
+}
+
+.popup-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+.popup-header h1 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.popup-content {
+    padding: 20px;
+}
+
+.setting-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+    transition: all 0.3s ease;
+}
+
+.setting-item:hover {
+    background: #e9ecef;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.setting-item label {
+    font-weight: 500;
+    color: #2c3e50;
+    font-size: 14px;
+    margin: 0;
+}
+
+.break-info {
+    margin-top: 15px;
+    padding: 15px;
+    background: #e3f2fd;
+    border-radius: 8px;
+    border-left: 4px solid #2196F3;
+}
+
+.break-status {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.break-label {
+    font-weight: 500;
+    color: #1976d2;
+    font-size: 13px;
+}
+
+.break-mode {
+    font-weight: 600;
+    color: #0d47a1;
+    font-size: 13px;
+}
+
+.popup-footer {
+    padding: 20px;
+    background: #f8f9fa;
+    border-top: 1px solid #e9ecef;
+}
+
+.settings-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 20px;
+    background: #667eea;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.settings-btn:hover {
+    background: #5a6fd8;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.btn-icon {
+    font-size: 16px;
 }
 .switch {
     position: relative;
@@ -52,4 +162,111 @@ input:checked + .slider:before {
 h1 {
     font-size: 16px;
     margin-bottom: 10px;
+}
+
+/* Break Regulation Settings */
+.break-regulation-section {
+    margin-top: 15px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.break-regulation-section h3 {
+    margin: 0 0 10px 0;
+    font-size: 14px;
+    color: #333;
+}
+
+.setting-group {
+    margin-bottom: 10px;
+}
+
+.setting-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    font-size: 11px;
+}
+
+.setting-group input,
+.setting-group select {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: 11px;
+}
+
+.rule-settings {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: white;
+    border-radius: 3px;
+    border: 1px solid #eee;
+}
+
+.thresholds-container {
+    margin-top: 10px;
+}
+
+.thresholds-container h4 {
+    margin: 0 0 10px 0;
+    font-size: 12px;
+    color: #333;
+}
+
+.threshold-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+    padding: 5px;
+    background-color: #f5f5f5;
+    border-radius: 3px;
+}
+
+.threshold-item input {
+    width: 60px;
+    margin: 0 5px;
+}
+
+.threshold-item .remove-threshold {
+    background-color: #ff4444;
+    color: white;
+    border: none;
+    padding: 2px 6px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 10px;
+}
+
+.add-button,
+.save-button {
+    background-color: #2196F3;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 11px;
+    margin-top: 5px;
+}
+
+.add-button:hover,
+.save-button:hover {
+    background-color: #1976D2;
+}
+
+.info-text {
+    margin-top: 10px;
+    padding: 8px;
+    background-color: #e3f2fd;
+    border-radius: 3px;
+    font-size: 10px;
+    line-height: 1.4;
+}
+
+.info-text p {
+    margin: 0;
 }

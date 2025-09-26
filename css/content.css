@@ -1,17 +1,39 @@
-/* Styles for the total working time element */
+/* Time tracker card - Status block styling */
 .total-working-time {
-    position: fixed;
-    bottom: 122px;
-    right: 39px;
-    width: 277px;
-    background-color: white;
-    padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 20px;
-    color: black;
-    z-index: 1000;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
+    position: relative;
+    background-color: transparent;
+    padding: 0;
+    border-radius: 0;
+    font-size: 14px;
+    color: #ffffff;
+    z-index: 10;
+    box-shadow: none;
+    display: block;
+    align-items: stretch;
+    gap: 0;
+    white-space: normal;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+    border: none;
+    margin: 16px 0;
+    font-family: 'Courier New', monospace;
+}
+
+/* Simple responsive design */
+@media (max-width: 768px) {
+    .total-working-time {
+        position: fixed;
+        top: 10px;
+        right: 10px;
+        width: calc(100vw - 20px);
+        max-width: 300px;
+    }
+}
+
+@media (max-width: 480px) {
+    .total-working-time {
+        width: calc(100vw - 20px);
+        right: 10px;
+        left: 10px;
+    }
 }

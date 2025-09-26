@@ -6,21 +6,43 @@
     <link rel="stylesheet" href="../css/popup.css">
 </head>
 <body>
-<h1>AskDante Time Calculator</h1>
-<div class="label-container">
-    <label for="toggleTotalTime" id="labelTotalTime">Show Total Working Time</label>
-    <label class="switch">
-        <input type="checkbox" id="toggleTotalTime">
-        <span class="slider"></span>
-    </label>
-</div>
-<div class="label-container">
-    <label for="toggleTimeRules" id="labelTimeRules">Apply Time Regulations</label>
-    <label class="switch">
-        <input type="checkbox" id="toggleTimeRules">
-        <span class="slider"></span>
-    </label>
-</div>
-<script src="popup.js"></script>
+    <div class="popup-container">
+        <header class="popup-header">
+            <h1>AskDante Time Calculator</h1>
+        </header>
+        
+        <div class="popup-content">
+            <div class="setting-item">
+                <label for="toggleTotalTime" id="labelTotalTime">Show Total Working Time</label>
+                <label class="switch">
+                    <input type="checkbox" id="toggleTotalTime">
+                    <span class="slider"></span>
+                </label>
+            </div>
+            
+            <div class="setting-item">
+                <label for="toggleTimeRules" id="labelTimeRules">Apply Time Regulations</label>
+                <label class="switch">
+                    <input type="checkbox" id="toggleTimeRules">
+                    <span class="slider"></span>
+                </label>
+            </div>
+            
+            <div class="break-info" id="breakInfo" style="display: none;">
+                <div class="break-status">
+                    <span class="break-label">Current Mode:</span>
+                    <span class="break-mode" id="currentBreakMode">No Regulation</span>
+                </div>
+            </div>
+        </div>
+        
+        <footer class="popup-footer">
+            <button id="openSettingsBtn" class="settings-btn">
+                Open Settings
+            </button>
+        </footer>
+    </div>
+
+    <script src="../js/popup.js"></script>
 </body>
 </html>

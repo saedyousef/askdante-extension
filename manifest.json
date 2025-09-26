@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "AskDante: Total work time calculator",
-  "version": "2.1",
-  "permissions": ["storage", "notifications"],
+  "version": "2.3",
+  "permissions": ["storage", "notifications", "tabs"],
   "action": {
 	"default_popup": "html/popup.html",
 	"default_icon": {

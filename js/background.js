@@ -1,3 +1,14 @@
+// Import break regulation classes
+importScripts(
+    'breakRegulation/BaseBreakRegulation.js',
+    'breakRegulation/NoRegulation.js',
+    'breakRegulation/FixedRule.js',
+    'breakRegulation/DynamicMultiThresholdRule.js',
+    'breakRegulation/GermanArbeitszeitgesetzRule.js',
+    'breakRegulation/BreakRegulationManager.js',
+    'breakRegulation/BreakSessionTracker.js'
+);
+
 // background.js is a script that runs in the background and manages the extension's lifecycle, including event listeners and message passing.
 chrome.runtime.onInstalled.addListener(function (details) {
     if (details.reason === 'update') {
@@ -7,35 +18,117 @@ chrome.runtime.onInstalled.addListener(function (details) {
             title: 'Extension Updated: New Features Added!',
             message:
                 'What\'s New:\n' +
-                '- Time now displayed as h:m format (e.g., 5:37)\n' +
-                '- Labels and values aligned for clarity\n' +
-                '- Responsive card height for better display\n' +
-                '- Seamless "Apply Time Rules" support\n' +
+                '- Flexible break time regulations\n' +
+                '- Multiple regulation modes (None, Fixed, Dynamic, German Law)\n' +
+                '- Configurable break thresholds\n' +
+                '- Enhanced break validation\n' +
                 'Enjoy the improved experience!',
             priority: 1
         });
     }
 });
 
+// Initialize break regulation manager
+const breakRegulationManager = new BreakRegulationManager();
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.timeData) {
-        chrome.storage.sync.get(["applyTimeRules"], function (result) {
+        chrome.storage.sync.get(["breakRegulationConfig", "applyTimeRules"], function (result) {
+            const breakRegulationConfig = result.breakRegulationConfig || { type: 'none', config: {} };
             const applyTimeRules = result.applyTimeRules || false;
-            const totalMinutes = calculateTime(message.timeData, applyTimeRules);
-            const formattedTime = formatTime(totalMinutes);
-
-            if (formattedTime) {
+            
+            // Initialize break regulation manager with config
+            breakRegulationManager.initialize(breakRegulationConfig).then(() => {
+                const calculationResult = calculateTimeWithBreakRegulation(message.timeData, applyTimeRules);
+                sendResponse({ 
+                    totalTime: calculationResult.formattedTime,
+                    breakInfo: calculationResult.breakInfo
+                });
+            }).catch(error => {
+                console.error('Error initializing break regulation:', error);
+                // Fallback to old calculation
+                const totalMinutes = calculateTimeLegacy(message.timeData, applyTimeRules);
+                const formattedTime = formatTime(totalMinutes);
                 sendResponse({ totalTime: formattedTime });
-            } else {
-                sendResponse({ totalTime: { totalFormatted: '0 hours and 0 minutes', remainingFormatted: '8 hours and 0 minutes' } });
-            }
+            });
         });
         return true; // Keeps the message port open for async response
     }
 });
 
-function calculateTime(timeData, applyTimeRules) {
+/**
+ * Calculate time with new break regulation system
+ */
+function calculateTimeWithBreakRegulation(timeData, applyTimeRules) {
+    // Calculate basic work time
+    const workMinutes = calculateBasicWorkTime(timeData);
+    
+    if (!applyTimeRules) {
+        return {
+            formattedTime: formatTime(workMinutes),
+            breakInfo: null
+        };
+    }
+
+    // Track break sessions
+    const breakTracker = new BreakSessionTracker();
+    const breakSessions = breakTracker.parseBreakSessions(timeData);
+    
+    // Calculate break requirements
+    const breakRequirement = breakRegulationManager.calculateBreakRequirement(workMinutes, breakSessions);
+    
+    // Apply break regulation
+    let adjustedWorkMinutes = workMinutes;
+    if (breakRequirement.isCapped) {
+        adjustedWorkMinutes = breakRequirement.cappedAt;
+    }
+
+    return {
+        formattedTime: formatTime(adjustedWorkMinutes),
+        breakInfo: {
+            workMinutes: workMinutes,
+            adjustedWorkMinutes: adjustedWorkMinutes,
+            breakRequirement: breakRequirement,
+            breakSessions: breakSessions,
+            breakSummary: breakTracker.getBreakSummary()
+        }
+    };
+}
+
+/**
+ * Calculate basic work time without break regulations
+ */
+function calculateBasicWorkTime(timeData) {
+    let totalMinutes = 0;
+    let currentStartTime = null;
+
+    timeData.forEach((record) => {
+        let [time, action] = record.split(' ');
+        let [hours, minutes] = time.split(':').map(Number);
+        let recordTime = new Date();
+        recordTime.setHours(hours, minutes, 0, 0);
+
+        if (['come', 'kommen', 'komen'].includes(action.toLowerCase())) {
+            currentStartTime = recordTime;
+        } else if (['go', 'gehen', 'gaan'].includes(action.toLowerCase()) && currentStartTime) {
+            totalMinutes += (recordTime - currentStartTime) / 60000; // Convert ms to minutes
+            currentStartTime = null;
+        }
+    });
+
+    // If still working, add current time
+    if (currentStartTime) {
+        const now = new Date();
+        totalMinutes += (now - currentStartTime) / 60000;
+    }
+
+    return totalMinutes;
+}
+
+/**
+ * Legacy calculation function for fallback
+ */
+function calculateTimeLegacy(timeData, applyTimeRules) {
     let totalMinutes = 0;
     let currentStartTime = null;
     let breakMinutes = 0;
